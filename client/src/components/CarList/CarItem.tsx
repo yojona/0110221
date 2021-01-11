@@ -17,13 +17,13 @@ const useStyles = makeStyles<Theme, { estimatedate: string | undefined }>((theme
   },
   root: {
     position: 'relative',
-    minWidth: 320,
+    minWidth: 280,
+    maxWidth: 280,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    '&:not(:first-child)': {
-      marginLeft: theme.spacing(3)
-    }
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(3)
   },
   media: {
     display: 'flex',

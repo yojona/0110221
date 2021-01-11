@@ -10,7 +10,7 @@ import CarList from './components/CarList';
 const App: FC = () => (
   <Provider store={store}>
     <Layout>
-      <Appbar icon={<AppIcon />} title="Vehículos" />
+      <Appbar icon={<AppIcon />} title="Cars" />
       <Page>
         <CarList />
       </Page>

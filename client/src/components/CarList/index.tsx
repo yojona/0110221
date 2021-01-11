@@ -12,9 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   list: {
     display: 'flex',
-    '&:not(:first-child)': {
-      marginLeft: theme.spacing(3)
-    }
+    flexWrap: 'wrap',
   }
 }));
 
@@ -29,7 +27,7 @@ const CarList: FC = () => {
 
   return (
     <Container>
-      <Typography variant="h5" className={classes.title}>Lista de autos</Typography>
+      <Typography variant="h5" className={classes.title}>Car list ({cars.length})</Typography>
       <div className={classes.list}>
         {cars.map((c) => (
           <CarItem key={c.id} {...c} />
