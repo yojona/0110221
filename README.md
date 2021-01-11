@@ -1,5 +1,5 @@
 ### How to run
 ```
 yarn bootstrap
-yarn run
+yarn run start-all
 ```
