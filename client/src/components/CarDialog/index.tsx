@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, TextField, Theme } from '@material-ui/core';
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Car } from '../../store/cars/reducer';
-import { getDate } from '../../utils/dates';
+import { formatDate, getDate } from '../../utils/dates';
 
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
   field: {
@@ -10,7 +10,6 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     }
   }
 }));
-
 
 type CarDialogProps = {
   car: Car;
@@ -36,7 +35,7 @@ const CarDialog: FC<CarDialogProps> = ({ car, open, onConfirm }) => {
     setClientName(e.target.value);
   };
 
-  const renderDate = currentDate.toISOString().split("T")[0]
+  const renderDate = formatDate(currentDate);
 
   return (
     <Dialog open={open}>

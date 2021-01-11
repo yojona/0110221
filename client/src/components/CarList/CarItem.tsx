@@ -1,6 +1,8 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, makeStyles, Theme, Typography } from '@material-ui/core';
 import React, { FC, useState } from 'react';
-import { Car } from '../../store/cars/reducer';
+import { useDispatch } from 'react-redux';
+import { actions, Car } from '../../store/cars/reducer';
+import { formatDate } from '../../utils/dates';
 import CarDialog from '../CarDialog';
 
 const useStyles = makeStyles<Theme, { estimatedate: string | undefined }>((theme: Theme) => ({
@@ -11,7 +13,7 @@ const useStyles = makeStyles<Theme, { estimatedate: string | undefined }>((theme
     opacity: '0.3',
     zIndex: 1,
     pointerEvents: 'none',
-    backgroundColor: ({ estimatedate }) => estimatedate && '#a7a8af',
+    backgroundColor: ({ estimatedate }) => estimatedate ? '#a7a8af' : 'transparent',
   },
   root: {
     position: 'relative',
@@ -31,24 +33,33 @@ const useStyles = makeStyles<Theme, { estimatedate: string | undefined }>((theme
   },
 }));
 
-const CarItem: FC<Car> = ({
-  id,
-  make,
-  model,
-  image,
-  km,
-  description,
-  estimatedate
-}) => {
-  const classes = useStyles({ estimatedate });
+const CarItem: FC<Car> = (car) => {
+  const dispatch = useDispatch();
+  const classes = useStyles({ estimatedate: car.estimatedate });
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleConfirm = () => {
+  const handleConfirm = (id: number, client: string, date: Date) => {
+    const updated = {
+      ...car,
+      clientName: client,
+      estimatedate: formatDate(date),
+    }
+
+    dispatch(actions.updateCar(updated));
     setShowDialog(false);
   };
 
   const handleChangeStatus = () => {
-    setShowDialog(true);
+    if (!car.estimatedate) {
+      return setShowDialog(true);
+    }
+
+    const updated = {
+      ...car,
+      clientName: undefined,
+      estimatedate: undefined,
+    };
+    dispatch(actions.updateCar(updated));
   };
 
   const formatKM = (input?: number) => {
@@ -66,44 +77,47 @@ const CarItem: FC<Car> = ({
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={image}
+            image={car.image}
           />
           <CardContent>
             <Typography gutterBottom variant="h6">
-              {make} {model}
+              {car.make} {car.model}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              ID: {id}
+              ID: {car.id}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              KM: {formatKM(km)}
+              KM: {formatKM(car.km)}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Description: {description}
+              {car.clientName && `Client: ${car.clientName}`}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {estimatedate && `Estimated date: ${estimatedate}`}
+              Description: {car.description}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {car.estimatedate && `Estimated date: ${car.estimatedate}`}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" fullWidth onClick={handleChangeStatus}>
-            Change status
-        </Button>
+          {!car.estimatedate && (
+            <Button size="small" color="primary" fullWidth onClick={handleChangeStatus}>
+              Change status
+            </Button>
+          )}
+
+          {car.estimatedate && (
+            <Button size="small" color="primary" fullWidth onClick={handleChangeStatus}>
+              It's done
+            </Button>
+          )}
         </CardActions>
       </Card>
       <CarDialog
         open={showDialog}
         onConfirm={handleConfirm}
-        car={{
-          id,
-          make,
-          model,
-          image,
-          km,
-          description,
-          estimatedate
-        }}
+        car={car}
       />
     </>
   )

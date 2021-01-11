@@ -37,6 +37,6 @@ const CarList: FC = () => {
       </div>
     </Container>
   )
-}
+};
 
 export default CarList;

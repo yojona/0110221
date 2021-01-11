@@ -7,7 +7,8 @@ export type Car = {
   estimatedate?: string,
   id: number,
   km?: number,
-  image: string
+  image: string,
+  clientName?: string
 };
 
 type initialStateType = {
@@ -30,6 +31,13 @@ const carListSlice = createSlice({
     receiveCars: (state, action: PayloadAction<Car[]>) => {
       state.cars = action.payload;
       state.loading = false;
+    },
+    updateCar: (state, action: PayloadAction<Car>) => {
+      const index = state.cars.findIndex((c) => c.id === action.payload.id);
+
+      if (index >= 0) {
+        state.cars[index] = action.payload
+      }
     },
   }
 });

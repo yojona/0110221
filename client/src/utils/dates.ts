@@ -12,3 +12,7 @@ export const getDate = (date?: string): Date => {
   }
   return new Date(date);
 };
+
+export const formatDate = (date: Date) => {
+  return date.toISOString().split("T")[0];
+};
