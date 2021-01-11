@@ -1,0 +1,20 @@
+{
+  "name": "carsapp",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "server": "node server/dist/index.js",
+    "client": "yarn --cwd ./client start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yojona/0110221.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yojona/0110221/issues"
+  },
+  "homepage": "https://github.com/yojona/0110221#readme"
+}
