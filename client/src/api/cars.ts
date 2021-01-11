@@ -4,7 +4,7 @@ type APIResult = {
   cars: Car[];
 }
 
-const API_BASE = "http://carsapp.azurewebsites.net";
+const API_BASE = "https://carsapp.azurewebsites.net";
 
 export const fetchCars = async (): Promise<Car[]> => {
   try {

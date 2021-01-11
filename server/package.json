@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@types/cors": "^2.8.9",
+    "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "name": "server",
@@ -17,7 +19,7 @@
     "build": "tsc -p ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Jonathan Ayala",
   "license": "ISC",
   "description": ""
 }

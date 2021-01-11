@@ -2,11 +2,11 @@
   "name": "carsapp",
   "version": "1.0.0",
   "description": "",
-  "main": "server/dist/index.js",
   "scripts": {
-    "start": "node ./server/dist/index.js",
-    "server": "start",
-    "client": "yarn --cwd ./client start"
+    "dev-client": "yarn --cwd ./client start",
+    "dev-server": "yarn --cwd ./server start",
+    "bootstrap": "concurrently \"yarn --cwd ./client install\" \"yarn --cwd ./server install\"",
+    "start": "concurrently yarn:dev-*"
   },
   "repository": {
     "type": "git",
