@@ -22,7 +22,7 @@ const Appbar: FC<AppbarProps> = ({ icon, title }) => {
 
   return (
     <AppBar position="sticky">
-      <Toolbar>
+      <Toolbar variant="dense">
         <div className={classes.container}>
           <span className={classes.icon}>{icon}</span>
           <Typography variant="h6">{title}</Typography>
