@@ -1,40 +1,39 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import moment from 'moment';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, TextField, Theme } from '@material-ui/core';
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Car } from '../../store/cars/reducer';
-import DateFnsUtils from '@date-io/date-fns';
+import { getDate } from '../../utils/dates';
+
+const useStyles = makeStyles<Theme>((theme: Theme) => ({
+  field: {
+    '&:not(:first-child)': {
+      marginLeft: theme.spacing(1)
+    }
+  }
+}));
+
 
 type CarDialogProps = {
   car: Car;
   open: boolean;
-  onConfirm: () => void
+  onConfirm: (id: number, client: string, date: Date) => void
 }
 
-const getDate = (date?: string): Date => {
-  if (!date) {
-    return new Date();
-  }
-
-  const [year, day, month] = date.split('/');
-
-  if (year && day && month) {
-    return moment(`${year}-${month}-${day}`).toDate();
-  }
-
-  return new Date(date);
-};
-
 const CarDialog: FC<CarDialogProps> = ({ car, open, onConfirm }) => {
+  const classes = useStyles();
+  const [clientName, setClientName] = useState('');
   const [currentDate, setCurrentDate] = useState<Date>(getDate(car.estimatedate));
 
   const handleClick = () => {
-    onConfirm();
+    onConfirm(car.id, clientName, currentDate);
   };
 
   const handleDateChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const newDate = getDate(e.target.value);
     setCurrentDate(newDate);
+  };
+
+  const handleClientName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setClientName(e.target.value);
   };
 
   const renderDate = currentDate.toISOString().split("T")[0]
@@ -43,20 +42,26 @@ const CarDialog: FC<CarDialogProps> = ({ car, open, onConfirm }) => {
     <Dialog open={open}>
       <DialogTitle>Put into maintenance</DialogTitle>
       <DialogContent>
-        <TextField placeholder="Client name" />
         <TextField
-          id="date"
+          className={classes.field}
+          size="small"
+          label="Client name"
+          variant="outlined"
+          value={clientName}
+          onChange={handleClientName}
+        />
+        <TextField
+          className={classes.field}
+          size="small"
           label="Estimated date"
           type="date"
           value={renderDate}
           onChange={handleDateChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          variant="outlined"
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClick}>Add</Button>
+        <Button onClick={handleClick} disabled={!clientName}>Save</Button>
       </DialogActions>
     </Dialog>
   )
