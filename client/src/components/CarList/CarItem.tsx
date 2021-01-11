@@ -84,7 +84,7 @@ const CarItem: FC<Car> = (car) => {
               {car.make} {car.model}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              ID: {car.id}
+              ID: {car.id || 'Unknown'}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
               KM: {formatKM(car.km)}

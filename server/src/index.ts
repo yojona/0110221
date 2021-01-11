@@ -7,6 +7,10 @@ const app: Application = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.get("/", (_req: Request, res: Response) => {
+  res.json({status: 'running'})
+});
+
 app.get("/api/cars", (_req: Request, res: Response) => {
   res.json({cars})
 });
